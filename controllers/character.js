@@ -1,12 +1,17 @@
 const CharacterDomain = require('../domain/character');
-const CharacterObjectValidation = require('../util/character-object-validation');
+const ValidateCharacterObject = require('../util/character-object-validation');
+const HttpAdapter = require('../adapters/http-adapter');
 
-exports.getCharacter = (req, res, next) => {
+exports.getCharacter = async (req, res, next) => {
+    const result = await HttpAdapter('5a05e2b252f721a3cf2ea33f').then((bodyData) => {
+        return Promise.resolve(JSON.parse(bodyData));
+    });
+    console.log(result);
     res.json({message: 'get'});
 };
 exports.createCharacter = async (req, res, next) => {
     try {
-        CharacterObjectValidation(req.body);
+        ValidateCharacterObject(req.body);
         const characterObject = {
             name: req.body.name,
             role: req.body.role,
@@ -22,6 +27,7 @@ exports.createCharacter = async (req, res, next) => {
     }
 };
 exports.updateCharacter = (req, res, next) => {
+
     res.json({message: 'update'});
 };
 exports.deleteCharacter = (req, res, next) => {
