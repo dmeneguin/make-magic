@@ -1,12 +1,18 @@
 const https = require('https');
 
-module.exports = (houseId) => {
+module.exports = (url) => {
         return new Promise((resolve, reject) => {
-        https.get(`https://www.potterapi.com/v1/houses/${houseId}?key=$2a$10$qvq4xOy4Gy00qpI0yQCOG.Kb3StC1OBl6ke5uVDJyi2sp95/Ak6WO`, (resp) => {
+        https.get(url, (resp) => {
             let bodyData = [];
 
             resp.on('data', (chunk) => bodyData.push(chunk));
-            resp.on('end', () => resolve(bodyData.join('')));
+            resp.on('end', () => {
+                const resumedResponse = {
+                    status: resp.statusCode,
+                    data: bodyData.join('')
+                }
+                resolve(resumedResponse);
+            });
 
         }).on("error", (err) => {
             reject(err);

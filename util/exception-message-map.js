@@ -13,6 +13,10 @@ const ExceptionMessageMap = Object.freeze({
     CHARACTER_PATRONOUS_VIOLATION: 'The character patronous is a required attribute',
     CHARACTER_PATRONOUS_SPECIAL_CHAR: 'The character patronous cannot contain special chars',
     CHARACTER_PATRONOUS_NUMBER: 'The character patronous cannot contain numbers',
+    CHARACTER_ID_VIOLATION: 'The character id is a required attribute',
+    CHARACTER_ID: 'The character id is not valid',
+    HOUSE_ID_VIOLATION: 'Invalid House',
+    CHARACTER_UPDATE_NOT_FOUND: 'There is no character registered with this id',
 })
 
 module.exports = ExceptionMessageMap;

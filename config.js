@@ -15,6 +15,12 @@ const config = {
             useUnifiedTopology: true,
             useNewUrlParser: true,
         }
+    },
+    makeMagicApi: {
+        host: requireProcessEnv('MAKE_MAGIC_API'),
+        housesRoute: requireProcessEnv('MAKE_MAGIC_HOUSES_ROUTE'),
+        apiKeyParameter: requireProcessEnv('MAKE_MAGIC_KEY_PARAMETER'),
+        apiKey: requireProcessEnv('MAKE_MAGIC_API_KEY'),
     }
 }
 
