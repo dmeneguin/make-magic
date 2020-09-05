@@ -1,34 +1,48 @@
 const CharacterService = require('../services/character-service');
 
-exports.getCharacter = async (req, res, next) => {
+exports.get = async (req, res, next) => {
     try {
-        const characterId = req.query.id;
-        const characterInfo = req.body;
-        await CharacterService.updateCharacter(characterId, characterInfo);
-        res.json({message: 'Character successfully updated'});
+        const match = {
+            id: req.params.id,
+            name: req.query.name,
+            role: req.query.role,
+            school: req.query.school,
+            house: req.query.house,
+            patronus: req.query.patronus,
+        }
+        const sort = req.query.sortBy;
+        const order = req.query.orderBy;
+        const characters = await CharacterService.get(match, sort, order);
+        res.json(characters);
     } catch (ex) {
         res.status(500).json({message: ex.message});
     }
 };
-exports.createCharacter = async (req, res, next) => {
+exports.create = async (req, res, next) => {
     try {
         const characterInfo = req.body;
-        await CharacterService.createCharacter(characterInfo);
+        await CharacterService.create(characterInfo);
         res.json({message: 'Character successfully created'});
     } catch (ex) {
         res.status(500).json({message: ex.message});
     }
 };
-exports.updateCharacter = async (req, res, next) => {
+exports.update = async (req, res, next) => {
     try {
         const characterId = req.params.id;
         const characterInfo = req.body;
-        await CharacterService.updateCharacter(characterId, characterInfo);
+        await CharacterService.update(characterId, characterInfo);
         res.json({message: 'Character successfully updated'});
     } catch (ex) {
         res.status(500).json({message: ex.message});
     }
 };
-exports.deleteCharacter = (req, res, next) => {
-    res.json({message: 'delete'});
+exports.delete = async (req, res, next) => {
+    try {
+        const characterId = req.params.id;
+        await CharacterService.delete(characterId);
+        res.json({message: 'Character successfully deleted'});
+    } catch (ex) {
+        res.status(500).json({message: ex.message});
+    }
 };

@@ -17,6 +17,7 @@ const ExceptionMessageMap = Object.freeze({
     CHARACTER_ID: 'The character id is not valid',
     HOUSE_ID_VIOLATION: 'Invalid House',
     CHARACTER_UPDATE_NOT_FOUND: 'There is no character registered with this id',
+    CHARACTER_DELETE_NOT_FOUND: 'There is no character registered with this id',
 })
 
 module.exports = ExceptionMessageMap;
