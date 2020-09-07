@@ -1,6 +1,6 @@
 const dotenv = require('dotenv-safe');
 
-const requireProcessEnv = (name) => {
+const requireProcessEnv = (name: string) => {
     if(!process.env[name]) {
         throw new Error(`the ${name} environment variable must be set`);
     }
@@ -24,4 +24,4 @@ const config = {
     }
 }
 
-module.exports = config;
+export default config;

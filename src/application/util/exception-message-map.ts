@@ -20,4 +20,4 @@ const ExceptionMessageMap = Object.freeze({
     CHARACTER_DELETE_NOT_FOUND: 'There is no character registered with this id',
 })
 
-module.exports = ExceptionMessageMap;
+export default ExceptionMessageMap;

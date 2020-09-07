@@ -1,5 +1,5 @@
-const express = require('express');
-const charactersController = require('../controllers/character');
+import express from 'express';
+import charactersController from '../controllers/character';
 
 const router = express.Router();
 
@@ -8,4 +8,4 @@ router.post('/character', charactersController.create);
 router.put('/character/:id', charactersController.update);
 router.delete('/character/:id', charactersController.delete);
 
-module.exports = router;
+export default router;

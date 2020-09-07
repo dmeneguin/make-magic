@@ -1,11 +1,11 @@
 const https = require('https');
 
-module.exports = (url) => {
+const getRequest = (url:string) => {
         return new Promise((resolve, reject) => {
-        https.get(url, (resp) => {
-            let bodyData = [];
+        https.get(url, (resp:any) => {
+            let bodyData:any = [];
 
-            resp.on('data', (chunk) => bodyData.push(chunk));
+            resp.on('data', (chunk:any) => bodyData.push(chunk));
             resp.on('end', () => {
                 const resumedResponse = {
                     status: resp.statusCode,
@@ -14,8 +14,10 @@ module.exports = (url) => {
                 resolve(resumedResponse);
             });
 
-        }).on("error", (err) => {
+        }).on("error", (err:any) => {
             reject(err);
         });
     });
 }
+
+export default getRequest;
