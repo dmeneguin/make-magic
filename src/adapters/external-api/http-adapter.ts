@@ -1,23 +1,21 @@
-const https = require('https');
+import https from 'https';
 
-const getRequest = (url:string) => {
+export default function getRequest(url:string):Promise<Record<string, string|number>> {
         return new Promise((resolve, reject) => {
-        https.get(url, (resp:any) => {
-            let bodyData:any = [];
+        https.get(url, (resp) => {
+            const bodyData:string[] = [];
 
-            resp.on('data', (chunk:any) => bodyData.push(chunk));
+            resp.on('data', (chunk) => bodyData.push(chunk));
             resp.on('end', () => {
                 const resumedResponse = {
-                    status: resp.statusCode,
+                    status: resp.statusCode?resp.statusCode:500,
                     data: bodyData.join('')
                 }
                 resolve(resumedResponse);
             });
 
-        }).on("error", (err:any) => {
+        }).on("error", (err) => {
             reject(err);
         });
     });
 }
-
-export default getRequest;

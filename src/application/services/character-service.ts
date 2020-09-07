@@ -5,14 +5,14 @@ import ValidateCharacterObject from '../util/character-object-validation';
 import ExceptionMap from '../util/exception-message-map';
 
 class CharacterService{
-    constructor(){}
-    queryBuilder(match: any) {
-        const query:any = {};
+    queryBuilder(match: Record<string, string | undefined>) {
+        const query:Record<string, unknown> = {};
         if(match.id){
-            if(!mongoose.Types.ObjectId.isValid(match.id)){
+            const characterId = match.id.toString();
+            if(!mongoose.Types.ObjectId.isValid(characterId)){
                 throw new Error(ExceptionMap.CHARACTER_ID);
             } else {
-                query._id = mongoose.Types.ObjectId(match.id);
+                query._id = mongoose.Types.ObjectId(characterId);
             }
         }
         if(match.name){
@@ -32,50 +32,38 @@ class CharacterService{
         }
         return query;               
     }
-    sortBuilder(sortParameter:string, order:string){
-        const builtSort:any = {};
+    sortBuilder(sortParameter:string | undefined, order:string | undefined){
+        const builtSort:Record<string, number> = {};
         const builtOrder = order === 'desc' ? -1:1;
-        builtSort[sortParameter] = builtOrder;
+        if(sortParameter){
+            builtSort[sortParameter] = builtOrder;
+        }
         return builtSort;
     }
-    async get(match:any, sort:string, order:string) {
+    async get(match:Record<string, string | undefined>, sort:string | undefined, order:string | undefined) {
         const findExpression = this.queryBuilder(match);
         const sortExpression = this.sortBuilder(sort, order);
         const foundCharacters = await CharacterDomain.find(findExpression).sort(sortExpression);
         return foundCharacters;
     }
-    async create(characterInfo:any) {
-        try {
-            const validatedCharacterInfo = ValidateCharacterObject.OnCreation(characterInfo);
-            await MakeMagicApiService.validateHouseId(validatedCharacterInfo.house);
-            const newCharacter = new CharacterDomain(validatedCharacterInfo);
-            await newCharacter.save();
-        } catch (ex) {
-            throw ex;
-        }
+    async create(characterInfo:Record<string, string>) {
+        const validatedCharacterInfo = ValidateCharacterObject.OnCreation(characterInfo);
+        await MakeMagicApiService.validateHouseId(validatedCharacterInfo.house);
+        const newCharacter = new CharacterDomain(validatedCharacterInfo);
+        await newCharacter.save();
     }
-    async update(characterId:string, characterInfo:any) {
-        try {
-            const validatedCharacterInfo = ValidateCharacterObject.OnUpdate(characterId, characterInfo);
-            if(validatedCharacterInfo.house){
-                await MakeMagicApiService.validateHouseId(validatedCharacterInfo.house);
-            }
-            const updateResult = await CharacterDomain.findOneAndUpdate({ _id: validatedCharacterInfo.id },validatedCharacterInfo, { useFindAndModify: false });
-            if(updateResult === null){
-                throw new Error(ExceptionMap.CHARACTER_UPDATE_NOT_FOUND);
-            }
-        } catch (ex) {
-            throw ex;
+    async update(characterId:string, characterInfo:Record<string, string | undefined>) {
+        const validatedCharacterInfo = ValidateCharacterObject.OnUpdate(characterId, characterInfo);
+        await MakeMagicApiService.validateHouseId(validatedCharacterInfo.house?validatedCharacterInfo.house.toString():'');
+        const updateResult = await CharacterDomain.findOneAndUpdate({ _id: validatedCharacterInfo.id },validatedCharacterInfo, { useFindAndModify: false });
+        if(updateResult === null){
+            throw new Error(ExceptionMap.CHARACTER_UPDATE_NOT_FOUND);
         }
     }
     async delete(characterId:string) {
-        try {
-            const deleteResult = await CharacterDomain.findByIdAndDelete(mongoose.Types.ObjectId(characterId));
-            if(deleteResult === null){
-                throw new Error(ExceptionMap.CHARACTER_DELETE_NOT_FOUND);
-            }
-        } catch (ex) {
-            throw ex;
+        const deleteResult = await CharacterDomain.findByIdAndDelete(mongoose.Types.ObjectId(characterId));
+        if(deleteResult === null){
+            throw new Error(ExceptionMap.CHARACTER_DELETE_NOT_FOUND);
         }
     }
 }

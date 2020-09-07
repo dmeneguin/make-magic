@@ -2,21 +2,18 @@ import mongoose from 'mongoose';
 import ExceptionMap from './exception-message-map';
 
 class CharacterValidation {
-    constructor(){
-
-    }
-    isObjectIdValid = mongoose.Types.ObjectId.isValid;;
+    isObjectIdValid = mongoose.Types.ObjectId.isValid;
     containsNumbers(parameter:string){
-        var format = /[0-9]/;
-        let containsNumbers = format.test(parameter);
+        const format = /[0-9]/;
+        const containsNumbers = format.test(parameter);
         return containsNumbers;
     }
     containsSpecialChars(parameter:string){
-        var format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        let containsSpecialChars = format.test(parameter);
+        const format = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
+        const containsSpecialChars = format.test(parameter);
         return containsSpecialChars;
     }
-    OnCreation (object:any) {
+    OnCreation (object:Record<string, string>) {
         if(!object.name) {
             throw new Error(ExceptionMap.CHARACTER_NAME_VIOLATION);
         } else {
@@ -73,8 +70,8 @@ class CharacterValidation {
         }
         return validatedCharacterInfo;
     }
-    OnUpdate (characterId:string, object:any) {
-        const validatedCharacterInfo:any = {};
+    OnUpdate (characterId:string, object:Record<string, string | undefined>) {
+        const validatedCharacterInfo:Record<string, string | mongoose.Types.ObjectId> = {};
         if(!characterId) {
             throw new Error(ExceptionMap.CHARACTER_ID_VIOLATION);
         } else {

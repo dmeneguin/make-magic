@@ -1,4 +1,4 @@
-const dotenv = require('dotenv-safe');
+import dotenv from 'dotenv-safe';
 
 const requireProcessEnv = (name: string) => {
     if(!process.env[name]) {
