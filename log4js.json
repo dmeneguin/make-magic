@@ -1,0 +1,18 @@
+{
+    "appenders": {
+        "out": {
+            "type": "console",
+            "category": "category1"
+        },
+        "app": {
+            "type": "file",
+            "filename": "log/app.log",
+            "maxLogSize": 20480000,
+            "backups": 7,
+            "category": "category2"
+        }
+    },
+    "categories": {
+        "default": { "appenders": [ "out", "app" ], "level": "all" }
+    }
+}

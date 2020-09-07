@@ -1,9 +1,21 @@
 import express from 'express';
+import log4js from 'log4js';
 import CharacterService from '../../../application/services/character-service';
 
 class CharacterController{
-    async get (req:express.Request, res:express.Response) {
+    private logger:log4js.Logger;
+
+    public constructor(){
+        this.logger = log4js.getLogger('character-controller');
+        this.get = this.get.bind(this);
+        this.create = this.create.bind(this);
+        this.update = this.update.bind(this);
+        this.delete = this.delete.bind(this);
+    }
+
+    public async get (req:express.Request, res:express.Response) {
         try {
+            this.logger.info('GET /character/<id?>');
             const match = {
                 id: req.params.id?req.params.id.toString():undefined,
                 name: req.query.name?req.query.name.toString():undefined,
@@ -17,35 +29,41 @@ class CharacterController{
             const characters = await CharacterService.get(match, sort, order);
             res.json(characters);
         } catch (ex) {
-            console.log(ex);
+            this.logger.error(ex);
             res.status(500).json({message: ex.message});
         }
     }
-    async create (req:express.Request, res:express.Response) {
+    public async create (req:express.Request, res:express.Response) {
         try {
+            this.logger.info('POST /character');
             const characterInfo = req.body;
             await CharacterService.create(characterInfo);
             res.json({message: 'Character successfully created'});
         } catch (ex) {
+            this.logger.error(ex);
             res.status(500).json({message: ex.message});
         }
     }
-    async update (req:express.Request, res:express.Response) {
+    public async update (req:express.Request, res:express.Response) {
         try {
+            this.logger.info('PUT /character/<id>');
             const characterId = req.params.id;
             const characterInfo = req.body;
             await CharacterService.update(characterId, characterInfo);
             res.json({message: 'Character successfully updated'});
         } catch (ex) {
+            this.logger.error(ex);
             res.status(500).json({message: ex.message});
         }
     }
-    async delete (req:express.Request, res:express.Response) {
+    public async delete (req:express.Request, res:express.Response) {
         try {
+            this.logger.info('DELETE /character/<id>');
             const characterId = req.params.id;
             await CharacterService.delete(characterId);
             res.json({message: 'Character successfully deleted'});
         } catch (ex) {
+            this.logger.error(ex);
             res.status(500).json({message: ex.message});
         }
     }

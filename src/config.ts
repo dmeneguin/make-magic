@@ -9,6 +9,7 @@ const requireProcessEnv = (name: string) => {
 
 dotenv.config();
 const config = {
+    port: requireProcessEnv('APPLICATION_PORT'),
     mongo: {
         uri: requireProcessEnv('MONGOOSE_URI'),
         options: {
