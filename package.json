@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "prod": "npm run build && node dist/app.js",
+    "start": "npm run build && node dist/app.js",
     "dev": "nodemon --watch \"src/\" --exec \"ts-node src/app.ts\" -e ts",
     "test": "mocha -r ts-node/register src/test/**/*.test.ts --timeout 30000",
     "coverage": "nyc -r text -e .ts -x \"src/test/*.test.ts\" npm run test",
