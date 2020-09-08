@@ -1,9 +1,8 @@
 # Make-magic
-
-> About
 This project is a CRUD of Harry Potter characters with house validation with Make-Magic API.
 
-#Installation
+**Installation**
+
 In the root folder, run:
 ```shell
 docker-compose up
