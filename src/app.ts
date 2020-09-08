@@ -1,9 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import characterRoutes from './adapters/api/routes/character';
 import config from './config';
 import log4js from 'log4js';
+import swaggerUi from 'swagger-ui-express';
+import * as swaggerDocument from '../swagger.json';
+import characterRoutes from './adapters/api/routes/character';
 
 const app = express();
 
@@ -24,6 +26,7 @@ async function initializeMongoose(callback: { (): void }) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(characterRoutes);
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_req, res) => {
     res.status(404).json({message: 'Route not found'});

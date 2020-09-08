@@ -1,0 +1,294 @@
+
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Make Magic Characters API",
+        "description": "A CRUD of harry potter characters that uses Make-Magic API to validate houses",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Local"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Characters",
+            "description": "API for Harry Potter characters"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/character": {
+            "get": {
+                "tags": [
+                    "Characters"
+                ],
+                "summary": "Get all characters in system",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "required": false,
+                        "description": "Name of character",
+                        "schema": {
+                            "$ref": "#/definitions/name"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "role",
+                        "required": false,
+                        "description": "Role of character",
+                        "schema": {
+                            "$ref": "#/definitions/role"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "school",
+                        "required": false,
+                        "description": "School of character",
+                        "schema": {
+                            "$ref": "#/definitions/school"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "house",
+                        "required": false,
+                        "description": "House of character",
+                        "schema": {
+                            "$ref": "#/definitions/house"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "patronus",
+                        "required": false,
+                        "description": "Patronus of character",
+                        "schema": {
+                            "$ref": "#/definitions/patronus"
+                        }
+                    }                                                                                
+                ],                
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Characters"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Characters"
+                ],
+                "summary": "Create a new character",
+                "requestBody": {
+                    "description": "Character Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Character"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/character/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the character",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Characters"
+                ],
+                "summary": "Get character with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Character with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Failed. Character not found."
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update character with given ID",
+                "tags": [
+                    "Characters"
+                ],
+                "requestBody": {
+                    "description": "Character Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Character"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Character with new values of properties",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Failed. Bad put data."
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete character with given ID",
+                "tags": [
+                    "Characters"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Delete Character with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Failed. Character not found."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "id": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "name": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "role": {
+            "properties": {
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "school": {
+            "properties": {
+                "school": {
+                    "type": "string"
+                }
+            }
+        },
+        "house": {
+            "properties": {
+                "house": {
+                    "type": "string"
+                }
+            }
+        },    
+        "patronus": {
+            "properties": {
+                "patronus": {
+                    "type": "string"
+                }
+            }
+        },                                    
+        "Character": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "school": {
+                    "type": "string"
+                },
+                "house": {
+                    "type": "string"
+                },
+                "patronus": {
+                    "type": "string"
+                }
+            }
+        },
+        "Characters": {
+            "type": "object",
+            "properties": {
+                    "type": "object",
+                    "items": {
+                        "$ref": "#/definitions/Character"
+                    }
+            }
+        }
+    }
+}
