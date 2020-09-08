@@ -29,8 +29,9 @@ class CharacterController{
             const characters = await CharacterService.get(match, sort, order);
             res.json(characters);
         } catch (ex) {
+            const status = ex.status?ex.status:500;
             this.logger.error(ex);
-            res.status(500).json({message: ex.message});
+            res.status(status).json({message: ex.message});
         }
     }
     public async create (req:express.Request, res:express.Response) {
@@ -40,8 +41,9 @@ class CharacterController{
             await CharacterService.create(characterInfo);
             res.json({message: 'Character successfully created'});
         } catch (ex) {
+            const status = ex.status?ex.status:500;
             this.logger.error(ex);
-            res.status(500).json({message: ex.message});
+            res.status(status).json({message: ex.message});
         }
     }
     public async update (req:express.Request, res:express.Response) {
@@ -52,8 +54,9 @@ class CharacterController{
             await CharacterService.update(characterId, characterInfo);
             res.json({message: 'Character successfully updated'});
         } catch (ex) {
+            const status = ex.status?ex.status:500;
             this.logger.error(ex);
-            res.status(500).json({message: ex.message});
+            res.status(status).json({message: ex.message});
         }
     }
     public async delete (req:express.Request, res:express.Response) {
@@ -63,8 +66,9 @@ class CharacterController{
             await CharacterService.delete(characterId);
             res.json({message: 'Character successfully deleted'});
         } catch (ex) {
+            const status = ex.status?ex.status:500;
             this.logger.error(ex);
-            res.status(500).json({message: ex.message});
+            res.status(status).json({message: ex.message});
         }
     }
 }

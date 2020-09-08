@@ -4,6 +4,7 @@ import CharacterDomain from '../domain/character';
 import MakeMagicApiService from './make-magic-api-service';
 import ValidateCharacterObject from '../util/character-object-validation';
 import ExceptionMap from '../util/exception-message-map';
+import HttpRequestError from '../util/errors/http-request-error';
 
 class CharacterService{
     private logger:log4js.Logger;
@@ -20,7 +21,7 @@ class CharacterService{
         if(match.id){
             const characterId = match.id.toString();
             if(!mongoose.Types.ObjectId.isValid(characterId)){
-                throw new Error(ExceptionMap.CHARACTER_ID);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_ID, 400);
             } else {
                 query._id = mongoose.Types.ObjectId(characterId);
             }
@@ -70,14 +71,14 @@ class CharacterService{
         await MakeMagicApiService.validateHouseId(validatedCharacterInfo.house?validatedCharacterInfo.house.toString():'');
         const updateResult = await CharacterDomain.findOneAndUpdate({ _id: validatedCharacterInfo.id },validatedCharacterInfo, { useFindAndModify: false });
         if(updateResult === null){
-            throw new Error(ExceptionMap.CHARACTER_UPDATE_NOT_FOUND);
+            throw new HttpRequestError(ExceptionMap.CHARACTER_UPDATE_NOT_FOUND, 404);
         }
     }
     public async delete(characterId:string) {
         this.logger.info('Deleting character');
         const deleteResult = await CharacterDomain.findByIdAndDelete(mongoose.Types.ObjectId(characterId));
         if(deleteResult === null){
-            throw new Error(ExceptionMap.CHARACTER_DELETE_NOT_FOUND);
+            throw new HttpRequestError(ExceptionMap.CHARACTER_DELETE_NOT_FOUND, 404);
         }
     }
 }

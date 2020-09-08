@@ -10,7 +10,7 @@ describe('Character Test', () => {
         mongoose.connection.dropDatabase(done);
       });
 
-      it ('should reject invalid data with 400 status', async (done) => {
+      it ('should reject invalid data (missing name) with 400 status', async (done) => {
         const badReq = {
             role: "student",
             school: "Hogwarts School of Witchcraft and Wizardry",
@@ -20,10 +20,14 @@ describe('Character Test', () => {
         request(app)
           .post('/character')
           .send(badReq)
+          .expect((res) => {
+            expect(res.body).to.include({message: "The character name is a required attribute"});
+          })
           .expect(400, done);
+          
       });
 
-      it ('should accept valid data and return 200 status with saved object', (done) => {
+      it ('should accept valid data and return 200 status', (done) => {
         const goodReq = {
             name: "siberius",
             role: "student",

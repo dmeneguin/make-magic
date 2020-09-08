@@ -2,6 +2,7 @@ import log4js from 'log4js';
 import HttpAdapter from '../../adapters/external-api/http-adapter';
 import config from './../../config';
 import ExceptionMap from '../util/exception-message-map';
+import HttpRequestError from '../util/errors/http-request-error';
 
 class MakeMagicApiService {
     private logger:log4js.Logger;
@@ -18,7 +19,7 @@ class MakeMagicApiService {
             return {status: response.status, data: JSON.parse(response.data?response.data.toString():'')}
         });
         if(result.status !== 200 || !Array.isArray(result.data)){
-            throw new Error(ExceptionMap.HOUSE_ID_VIOLATION);
+            throw new HttpRequestError(ExceptionMap.HOUSE_ID_VIOLATION, 400);
         } 
     }
 }

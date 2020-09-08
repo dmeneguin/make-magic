@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import ExceptionMap from './exception-message-map';
+import HttpRequestError from '../util/errors/http-request-error';
+
 
 class CharacterValidation {
     isObjectIdValid = mongoose.Types.ObjectId.isValid;
@@ -15,50 +17,50 @@ class CharacterValidation {
     }
     OnCreation (object:Record<string, string>) {
         if(!object.name) {
-            throw new Error(ExceptionMap.CHARACTER_NAME_VIOLATION);
+            throw new HttpRequestError(ExceptionMap.CHARACTER_NAME_VIOLATION, 400);
         } else {
             if(this.containsSpecialChars(object.name)){
-                throw new Error(ExceptionMap.CHARACTER_NAME_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_NAME_SPECIAL_CHAR, 400);
             }
             if(this.containsNumbers(object.name)){
-                throw new Error(ExceptionMap.CHARACTER_NAME_NUMBER);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_NAME_NUMBER, 400);
             }
         }
         if(!object.role) {
-            throw new Error(ExceptionMap.CHARACTER_ROLE_VIOLATION);
+            throw new HttpRequestError(ExceptionMap.CHARACTER_ROLE_VIOLATION, 400);
         } else {
             if(this.containsSpecialChars(object.role)){
-                throw new Error(ExceptionMap.CHARACTER_ROLE_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_ROLE_SPECIAL_CHAR, 400);
             }
             if(this.containsNumbers(object.role)){
-                throw new Error(ExceptionMap.CHARACTER_ROLE_NUMBER);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_ROLE_NUMBER, 400);
             }
         }
         if(!object.school) {
-            throw new Error(ExceptionMap.CHARACTER_SCHOOL_VIOLATION);
+            throw new HttpRequestError(ExceptionMap.CHARACTER_SCHOOL_VIOLATION, 400);
         } else {
             if(this.containsSpecialChars(object.school)){
-                throw new Error(ExceptionMap.CHARACTER_SCHOOL_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_SCHOOL_SPECIAL_CHAR, 400);
             }
             if(this.containsNumbers(object.school)){
-                throw new Error(ExceptionMap.CHARACTER_SCHOOL_NUMBER);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_SCHOOL_NUMBER, 400);
             }        
         }
         if(!object.house) {
-            throw new Error(ExceptionMap.CHARACTER_HOUSE_VIOLATION);
+            throw new HttpRequestError(ExceptionMap.CHARACTER_HOUSE_VIOLATION, 400);
         } else {
             if(this.containsSpecialChars(object.house)){
-                throw new Error(ExceptionMap.CHARACTER_HOUSE_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_HOUSE_SPECIAL_CHAR, 400);
             }
         }
         if(!object.patronus) {
-            throw new Error(ExceptionMap.CHARACTER_PATRONOUS_VIOLATION);
+            throw new HttpRequestError(ExceptionMap.CHARACTER_PATRONOUS_VIOLATION, 400);
         } else {
             if(this.containsSpecialChars(object.patronus)){
-                throw new Error(ExceptionMap.CHARACTER_PATRONOUS_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_PATRONOUS_SPECIAL_CHAR, 400);
             }
             if(this.containsNumbers(object.patronus)){
-                throw new Error(ExceptionMap.CHARACTER_PATRONOUS_NUMBER);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_PATRONOUS_NUMBER, 400);
             }
         }
         const validatedCharacterInfo = {
@@ -73,52 +75,52 @@ class CharacterValidation {
     OnUpdate (characterId:string, object:Record<string, string | undefined>) {
         const validatedCharacterInfo:Record<string, string | mongoose.Types.ObjectId> = {};
         if(!characterId) {
-            throw new Error(ExceptionMap.CHARACTER_ID_VIOLATION);
+            throw new HttpRequestError(ExceptionMap.CHARACTER_ID_VIOLATION, 400);
         } else {
             if(!this.isObjectIdValid(characterId)){
-                throw new Error(ExceptionMap.CHARACTER_ID);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_ID, 400);
             }
             validatedCharacterInfo.id = mongoose.Types.ObjectId(characterId);
         }
         if(object.name) {
             if(this.containsSpecialChars(object.name)){
-                throw new Error(ExceptionMap.CHARACTER_NAME_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_NAME_SPECIAL_CHAR, 400);
             }
             if(this.containsNumbers(object.name)){
-                throw new Error(ExceptionMap.CHARACTER_NAME_NUMBER);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_NAME_NUMBER, 400);
             }
             validatedCharacterInfo.name = object.name;
         }
         if(object.role) {
             if(this.containsSpecialChars(object.role)){
-                throw new Error(ExceptionMap.CHARACTER_ROLE_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_ROLE_SPECIAL_CHAR, 400);
             }
             if(this.containsNumbers(object.role)){
-                throw new Error(ExceptionMap.CHARACTER_ROLE_NUMBER);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_ROLE_NUMBER, 400);
             }
             validatedCharacterInfo.role = object.role;
         }
         if(object.school) {
             if(this.containsSpecialChars(object.school)){
-                throw new Error(ExceptionMap.CHARACTER_SCHOOL_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_SCHOOL_SPECIAL_CHAR, 400);
             }
             if(this.containsNumbers(object.school)){
-                throw new Error(ExceptionMap.CHARACTER_SCHOOL_NUMBER);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_SCHOOL_NUMBER, 400);
             }
             validatedCharacterInfo.school = object.school;        
         }
         if(object.house) {
             if(this.containsSpecialChars(object.house)){
-                throw new Error(ExceptionMap.CHARACTER_HOUSE_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_HOUSE_SPECIAL_CHAR, 400);
             }
             validatedCharacterInfo.house = object.house;
         }
         if(object.patronus) {
             if(this.containsSpecialChars(object.patronus)){
-                throw new Error(ExceptionMap.CHARACTER_PATRONOUS_SPECIAL_CHAR);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_PATRONOUS_SPECIAL_CHAR, 400);
             }
             if(this.containsNumbers(object.patronus)){
-                throw new Error(ExceptionMap.CHARACTER_PATRONOUS_NUMBER);
+                throw new HttpRequestError(ExceptionMap.CHARACTER_PATRONOUS_NUMBER, 400);
             }
             validatedCharacterInfo.patronus = object.patronus;
         }
