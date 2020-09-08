@@ -33,3 +33,5 @@ initializeMongoose(() => {
     logger.info(`Starting server on port ${config.port}`);
     app.listen(config.port);
 });
+
+export default app;

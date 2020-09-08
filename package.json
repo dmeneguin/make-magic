@@ -7,7 +7,8 @@
     "build": "tsc",
     "prod": "npm run build && node dist/app.js",
     "dev": "nodemon --watch \"src/\" --exec \"ts-node src/app.ts\" -e ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -r ts-node/register src/test/**/*.test.ts --timeout 30000",
+    "coverage": "nyc -r text -e .ts -x \"src/test/*.test.ts\" npm run test",
     "lint": "eslint . --ext .ts"
   },
   "author": "",
@@ -25,10 +26,17 @@
     "typescript": "^4.0.2"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.3",
+    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
+    "chai": "^4.2.0",
     "dotenv-safe": "^8.2.0",
     "eslint": "^7.8.1",
-    "nodemon": "^2.0.4"
+    "mocha": "^8.1.3",
+    "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
+    "supertest": "^4.0.2"
   }
 }
