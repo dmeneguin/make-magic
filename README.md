@@ -11,3 +11,24 @@ The compose file runs the node application container and a mongodb container at 
 ```shell
 http://<application_address>:3000/swagger
 ```
+
+
+There are some other scripts that can be ran locally:
+```shell
+npm run test
+```
+to run some integration tests written using Chai and supertest frameworks   
+
+
+```shell
+npm run coverage
+```  
+to get some test coverage reports 
+
+
+```shell
+npm run lint
+```  
+to see if tslint show some warnings or errors by its rules.
+  
+
